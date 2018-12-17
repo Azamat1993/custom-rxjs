@@ -94,6 +94,35 @@ const map = (fn) => {
   }
 }
 
+// function makeHot(cold) {
+//   const subject = new Subject();
+//   cold.subscribe(subject);
+//   return new Observable(s => subject.subscribe(s));
+// }
+//
+// function makeHotCountRef(cold) {
+//   const subject = new Subject();
+//   const mainObs = cold.subscribe(subject);
+//
+//   let refs = 0;
+//
+//   return new Observable(observer => {
+//     refs++;
+//
+//     const sub = subject.subscribe(observer);
+//
+//     return () => {
+//       refs--;
+//
+//       if (refs === 0) {
+//         mainObs.unsubscribe();
+//       }
+//
+//       sub.unsubscribe();
+//     }
+//   })
+// }
+
 const myObservable = new Observable((observer) => {
   let i = 0;
 
