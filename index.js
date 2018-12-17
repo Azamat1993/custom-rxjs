@@ -94,6 +94,30 @@ const map = (fn) => {
   }
 }
 
+const filter = (fn) => {
+  return (source) => {
+    return new Observable(s => {
+      const subs = source.subscribe({
+        next(value) {
+          if (fn(value)) {
+            s.next(value);
+          }
+        },
+        error(err) {
+          s.error(err);
+        },
+        complete() {
+          s.complete();
+        }
+      });
+
+      return () => {
+        subs.unsubscribe();
+      }
+    })
+  }
+}
+
 // function makeHot(cold) {
 //   const subject = new Subject();
 //   cold.subscribe(subject);
@@ -143,6 +167,7 @@ const myObservable = new Observable((observer) => {
 
 const teardown = myObservable.pipe(
   map(x => x + 100),
+  filter(x => x % 2 === 0),
   map(x => x + '111')
 ).subscribe({
   next(val) {
